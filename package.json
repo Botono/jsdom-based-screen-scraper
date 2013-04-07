@@ -1,0 +1,13 @@
+{
+  "name": "Cigar_Geek_Scraper",
+  "description": "SCRAPE THE WEB!",
+  "author": "Aaron Murray <aaron@aaron-murray.net>",
+  "version": "0.0.1",
+  "dependencies": {
+    "mongoose": "2.4.8",
+    "ahr2": "2.2",
+    "events": "*",
+    "jsdom": "*"
+  },
+  "engine": "node >= 0.6.6"
+}
