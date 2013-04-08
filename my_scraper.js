@@ -2839,7 +2839,7 @@ for (var i=0;cigarBrands[i];i++) {
                 //console.log(_pjs$(this).find('td.messagecellbody').not('[colspan]').first().find('a').first().attr('href'));
                 tmpVal = _pjs$(this).find('td.messagecellbody').not('[colspan]').first().find('a').first().attr('href');
                 if (tmpVal) {
-                    cigarLinks.push({link: encodeURI(tmpVal)});
+                    cigarLinks.push({link: "http://www.cigargeeks.com/cigardb/" + encodeURI(tmpVal)});
                 }
 
             });
