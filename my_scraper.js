@@ -1,5 +1,4 @@
-// STORE IT
-var cigarGeeksBrands = ["100% Dominican",
+var cigarBrands = ["100% Dominican",
     "13 Cigars",
     "13th Floor",
     "1502",
@@ -2789,3 +2788,123 @@ var cigarGeeksBrands = ["100% Dominican",
     "Zino",
     "Ziq",
     "Zoidian"];
+
+pjs.config(
+    {
+        log: 'stdout',
+        format: 'json',
+        writer: 'file',
+        outFile: 'scrape_output.json',
+        timeoutInterval: 10000,
+        timeoutLimit: 50000
+    }
+)
+
+function getBrandUrl(query, pageNumber) {
+    if (!pageNumber) {
+        pageNumber = 1;
+    }
+    var baseURL = "http://www.cigargeeks.com";
+    return baseURL + "/cigardb/default.asp?action=srchrslt&page="+pageNumber+"&cigar_brand=" + encodeURIComponent(query);
+}
+
+
+
+for (var i=0;cigarBrands[i];i++) {
+    pjs.addSuite({
+        url: getBrandUrl(cigarBrands[i],1),
+        noConflict: true,
+        moreUrls: function() {
+            var numberOfPages = 1;
+            var brandString = '';
+            var pageUrls = new Array();
+            _pjs.$('font a').each(function() {
+                var theLink = _pjs.$(this);
+                if (theLink.text() == 'Last >>') {
+                    numberOfPages = theLink.attr("href").match(/page=([0-9]+)/)[1];
+                    brandString = theLink.attr("href").match(/cigar_brand=([a-zA-Z0-9].+)/)[1];
+                }
+            });
+            if (numberOfPages > 1) {
+                for (var j=2;j<=numberOfPages;j++) {
+                    pageUrls.push("http://www.cigargeeks.com/cigardb/default.asp?action=srchrslt&page="+j+"&cigar_brand=" + brandString);
+                }
+            }
+            return pageUrls;
+        },
+        scraper: function() {
+            var cigarLinks = new Array();
+            var tmpVal = '';
+            _pjs$('table.bbstable tr').each(function(){
+                //console.log(_pjs$(this).find('td.messagecellbody').not('[colspan]').first().find('a').first().attr('href'));
+                tmpVal = _pjs$(this).find('td.messagecellbody').not('[colspan]').first().find('a').first().attr('href');
+                if (tmpVal) {
+                    cigarLinks.push({link: "http://www.cigargeeks.com/cigardb/" + encodeURI(tmpVal)});
+                }
+
+            });
+            return cigarLinks;
+        }
+    });
+}
+
+
+/*
+function getOtherBrandPageUrls(brand) {
+    var numberOfPages = 1;
+    var pageUrls = new Array();
+    window._pjs.$('font a').each(function() {
+        var theLink = window._pjs.$(this);
+        if (theLink.text() == 'Last >>') {
+            numberOfPages = theLink.attr("href").match(/page=([0-9]+)/)[1];
+        }
+    });
+    if (numberOfPages > 1) {
+        for (var i=2;i<=numberOfPages;i++) {
+            pageUrls.push(getBrandUrl(brand, i));
+        }
+    }
+    return pageUrls;
+
+}
+
+
+function() {
+    var brand, name, length, ring_gauge, country, filler, binder, wrapper, color, vitola,
+        attributes = new Array();
+    _pjs.$('table.bbstable tr').each(function(){
+        //console.log('New TR');
+        var theTR  = _pjs.$(this);
+
+
+        theTR.find('td.messagecellbody').not('[colspan]').last(function() {
+            var theTD  = _pjs.$(this);
+            //console.log('------ New TD ' + attr_count);
+            attributes.push(theTD.text());
+        });
+
+
+        if (attributes[0] != undefined) {
+            var theItem =  {
+                name: attributes[0],
+                length: attributes[1],
+                ring_gauge: attributes[2],
+                country: attributes[3],
+                filler: attributes[4],
+                wrapper: attributes[5],
+                color: attributes[6]
+            }
+            self.numberOfItems++;
+            console.log(theItem);
+            self.onItem(theItem);
+        }
+
+
+
+    });
+
+    return [
+        //window.$().jquery, // the version Wikipedia is using
+        _pjs.$().jquery // the version pjscrape is using
+    ];
+}   */
