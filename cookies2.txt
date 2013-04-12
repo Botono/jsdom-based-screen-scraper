@@ -1,0 +1,2 @@
+[General]
+cookies="@Variant(\0\0\0\x7f\0\0\0\x16QList<QNetworkCookie>\0\0\0\0\x1\0\0\0\x1\0\0\0\x8eid=22d601984c0100c9||t=1365483098|et=730|cs=002213fd4827eaa2cf9610e347; expires=Thu, 09-Apr-2015 04:51:38 GMT; domain=.doubleclick.net; path=/)"
