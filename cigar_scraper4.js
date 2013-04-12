@@ -3,7 +3,7 @@ pjs.config(
         log: 'stdout',
         format: 'json',
         writer: 'file',
-        outFile: 'cigars1.json',
+        outFile: 'cigars4.json',
         timeoutInterval: 3000,
         timeoutLimit: 30000
     }
@@ -42,7 +42,7 @@ var theCigars = require('../scrape_output.js');
 
 addCookies();
 
-for (var i=0;i<10000;i++) {
+for (var i=30000;theCigars[i];i++) {
     pjs.addSuite({
         url: theCigars[i].link,
         noConflict: true,
