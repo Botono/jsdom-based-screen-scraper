@@ -42,7 +42,7 @@ var theCigars = require('../scrape_output.js');
 
 addCookies();
 
-for (var i=30000;theCigars[i];i++) {
+for (var i=30000;i<32000;i++) {
     pjs.addSuite({
         url: theCigars[i].link,
         noConflict: true,

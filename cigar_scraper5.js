@@ -3,11 +3,12 @@ pjs.config(
         log: 'stdout',
         format: 'json',
         writer: 'file',
-        outFile: 'cigars1.json',
-        batchSize: 50,
-        scrapeDelay: 3000
+        outFile: 'cigars5.json',
+        timeoutInterval: 3000,
+        timeoutLimit: 30000
     }
-);
+)
+
 
 function addCookies() {
     phantom.addCookie({
@@ -37,12 +38,11 @@ function addCookies() {
         'expires':  (new Date()).getTime() + 86400   /* <- expires in 10 hour */
     });
 }
-
-addCookies();
 var theCigars = require('../scrape_output.js');
 
-for (var i=0;i<10000;i++) {
+addCookies();
 
+for (var i=32000;theCigars[i];i++) {
     pjs.addSuite({
         url: theCigars[i].link,
         noConflict: true,
