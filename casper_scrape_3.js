@@ -23,10 +23,17 @@ casper.start('http://www.cigargeeks.com/community/logon.asp', function() {
 casper.on('remote.message', function(message) {
     this.echo('remote console message: ' + message);
 });
+casper.on('error', function(message) {
+    this.echo('ERROR BAD: '+ message);
+});
 
-casper.each(theCigars, function(casper, cigar) {
+casper.on('load.failed', function(failObj) {
+    this.echo('LOAD FAILED');
+});
+var cigar_count=0;
+casper.each(theCigars, function(casper, cigar, cigar_count) {
     casper.wait(3000, function () {
-        console.log('Opening: ' + cigar);
+        console.log(cigar_count + ': Opening: ' + cigar);
         this.open(cigar);
         var cigarData = this.evaluate(function() {
             var theLabel, theValue,
@@ -41,7 +48,7 @@ casper.each(theCigars, function(casper, cigar) {
         });
         console.log('Writing data: ' + JSON.stringify(cigarData));
         fs.write(config.outFile, JSON.stringify(cigarData)+',', 'a');
-})});
+    })});
 
 
 
